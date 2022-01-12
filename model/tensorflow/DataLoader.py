@@ -2,6 +2,8 @@ import os
 import numpy as np
 import scipy.misc
 import h5py
+import imageio
+from PIL import Image
 np.random.seed(123)
 
 # loading data from .h5
@@ -99,8 +101,8 @@ class DataLoaderDisk(object):
         images_batch = np.zeros((batch_size, self.fine_size, self.fine_size, 3)) 
         labels_batch = np.zeros(batch_size)
         for i in range(batch_size):
-            image = scipy.misc.imread(self.list_im[self._idx])
-            image = scipy.misc.imresize(image, (self.load_size, self.load_size))
+            image = imageio.imread(self.list_im[self._idx])
+            image = np.array(Image.fromarray(image).resize((self.load_size, self.load_size)))
             image = image.astype(np.float32)/255.
             image = image - self.data_mean
             if self.randomize:
