@@ -93,12 +93,11 @@ for epoch in range(2):
         labels = torch.tensor(labels)
         labels = labels.type(torch.LongTensor)
 
-        # zero the parameter gradients
-        optimizer.zero_grad()
-
         batch_loss = 0
         # forward + backward + optimize
         for one_input, one_label in zip(inputs, labels):
+            # zero the parameter gradients
+            optimizer.zero_grad()
             output = net(one_input.reshape((1,3,224,224)))
             loss = criterion(output, one_label.reshape((1)))
             batch_loss += loss.item()
